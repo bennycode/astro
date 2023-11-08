@@ -1,5 +1,94 @@
 # astro
 
+## 3.5.0
+
+### Minor Changes
+
+- [#8954](https://github.com/withastro/astro/pull/8954) [`f0031b0a3`](https://github.com/withastro/astro/commit/f0031b0a3959b03d1b28e173982c7e1ca60e735f) Thanks [@Princesseuh](https://github.com/Princesseuh)! - Updates the Image Services API to now delete original images from the final build that are not used outside of the optimization pipeline. For users with a large number of these images (e.g. thumbnails), this should reduce storage consumption and deployment times.
+
+- [#8984](https://github.com/withastro/astro/pull/8984) [`26b1484e8`](https://github.com/withastro/astro/commit/26b1484e808feee6faca3bd89fb512849a664046) Thanks [@Princesseuh](https://github.com/Princesseuh)! - Adds a new property `propertiesToHash` to the Image Services API to allow specifying which properties of `getImage()` / `<Image />` / `<Picture />` should be used for hashing the result files when doing local transformations. For most services, this will include properties such as `src`, `width` or `quality` that directly changes the content of the generated image.
+
+- [#8974](https://github.com/withastro/astro/pull/8974) [`143bacf39`](https://github.com/withastro/astro/commit/143bacf3962f7b0ed3efe2bdfea844e72e10d288) Thanks [@ematipico](https://github.com/ematipico)! - i18n routing
+
+- [#9010](https://github.com/withastro/astro/pull/9010) [`100b61ab5`](https://github.com/withastro/astro/commit/100b61ab5a34c1efc571a57ce46832ece97688e5) Thanks [@jasikpark](https://github.com/jasikpark)! - The `<Picture />` component will now use `jpg` and `jpeg` respectively as fallback formats when the original image is in those formats.
+
+- [#8974](https://github.com/withastro/astro/pull/8974) [`143bacf39`](https://github.com/withastro/astro/commit/143bacf3962f7b0ed3efe2bdfea844e72e10d288) Thanks [@ematipico](https://github.com/ematipico)! - Experimental support for i18n routing.
+
+  Astro's experimental i18n routing API allows you to add your multilingual content with support for configuring a default language, computing relative page URLs, and accepting preferred languages provided by your visitor's browser. You can also specify fallback languages on a per-language basis so that your visitors can always be directed to existing content on your site.
+
+  Enable the experimental routing option by adding an `i18n` object to your Astro configuration with a default location and a list of all languages to support:
+
+  ```js
+  // astro.config.mjs
+  import { defineConfig } from 'astro/config';
+
+  export default defineConfig({
+    experimental: {
+      i18n: {
+        defaultLocale: 'en',
+        locales: ['en', 'es', 'pt-br'],
+      },
+    },
+  });
+  ```
+
+  Organize your content folders by locale depending on your `i18n.routingStrategy`, and Astro will handle generating your routes and showing your preferred URLs to your visitors.
+
+  ```
+  ├── src
+  │   ├── pages
+  │   │   ├── about.astro
+  │   │   ├── index.astro
+  │   │   ├── es
+  │   │   │   ├── about.astro
+  │   │   │   ├── index.astro
+  │   │   ├── pt-br
+  │   │   │   ├── about.astro
+  │   │   │   ├── index.astro
+  ```
+
+  Compute relative URLs for your links with `getLocaleRelativeURL` from the new `astro:i18n` module:
+
+  ```astro
+  ---
+  import { getLocaleRelativeUrl } from 'astro:i18n';
+  const aboutUrl = getLocaleRelativeUrl('pt-br', 'about');
+  ---
+
+  <p>Learn more <a href={aboutURL}>About</a> this site!</p>
+  ```
+
+  Enabling i18n routing also provides two new properties for browser language detection: `Astro.preferredLocale` and `Astro.preferredLocaleList`. These combine the browser's `Accept-Langauge` header, and your site's list of supported languages and can be used to automatically respect your visitor's preferred languages.
+
+  Read more about Astro's [experimental i18n routing](https://docs.astro.build/en/guides/internationalization/) in our documentation.
+
+- [#8951](https://github.com/withastro/astro/pull/8951) [`38e21d127`](https://github.com/withastro/astro/commit/38e21d1275a379744bc402ad28ac35bd629d5ff0) Thanks [@bluwy](https://github.com/bluwy)! - Prefetching is now supported in core
+
+  You can enable prefetching for your site with the `prefetch: true` config. It is enabled by default when using [View Transitions](https://docs.astro.build/en/guides/view-transitions/) and can also be used to configure the `prefetch` behaviour used by View Transitions.
+
+  You can enable prefetching by setting `prefetch:true` in your Astro config:
+
+  ```js
+  // astro.config.js
+  import { defineConfig } from 'astro/config';
+
+  export default defineConfig({
+    prefetch: true,
+  });
+  ```
+
+  This replaces the `@astrojs/prefetch` integration, which is now deprecated and will eventually be removed.
+  Visit the [Prefetch guide](https://docs.astro.build/en/guides/prefetch/) for more information.
+
+- [#8903](https://github.com/withastro/astro/pull/8903) [`c5010aad3`](https://github.com/withastro/astro/commit/c5010aad3475669648dc939e00f88bbb52489d0d) Thanks [@horo-fox](https://github.com/horo-fox)! - Adds experimental support for multiple shiki themes with the new `markdown.shikiConfig.experimentalThemes` option.
+
+### Patch Changes
+
+- [#9016](https://github.com/withastro/astro/pull/9016) [`1ecc9aa32`](https://github.com/withastro/astro/commit/1ecc9aa3240b79a3879b1329aa4f671d80e87649) Thanks [@Princesseuh](https://github.com/Princesseuh)! - Add ability to "Click to go editor" on auditted elements in the dev overlay
+
+- Updated dependencies [[`c5010aad3`](https://github.com/withastro/astro/commit/c5010aad3475669648dc939e00f88bbb52489d0d)]:
+  - @astrojs/markdown-remark@3.4.0
+
 ## 3.4.4
 
 ### Patch Changes
